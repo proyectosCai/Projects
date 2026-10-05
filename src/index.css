@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-sena: #39a900;
+  --color-sena-oscuro: #2b7d00;
+  --color-sena-claro: #eef8e6;
+  --color-crema: #fffee7;
+}
+
+body { @apply text-gray-900 antialiased; }
+
+/* Fondo: imagen + velo verde/crema para que el contenido se lea bien */
+.fondo-app {
+  background-image:
+    radial-gradient(circle at 30% 20%, rgb(248 251 242 / 0.93), rgb(206 255 150 / 0.86)),
+    url('./assets/fondo.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+@layer components {
+  .btn-primario { @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed bg-sena text-white shadow-sm hover:bg-sena-oscuro; }
+  .btn-secundario { @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 bg-white text-gray-800 hover:bg-gray-100; }
+  .btn-peligro { @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed text-red-600 hover:bg-red-50; }
+  .input { @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-sena focus:outline-none focus:ring-2 focus:ring-sena/30; }
+  .tarjeta { @apply rounded-2xl border border-white/70 bg-white/90 p-5 shadow-md backdrop-blur-sm; }
+  .etiqueta { @apply mb-1 block text-sm font-medium text-gray-700; }
+}
+
+@media print {
+  .no-imprimir { display: none !important; }
+  .fondo-app { background: white; }
+}
