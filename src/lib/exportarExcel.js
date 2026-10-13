@@ -1,4 +1,5 @@
 import { redondear } from './resultados'
+import { etiquetaGrupo, detalleGrupo } from './grupos'
 
 const VERDE = 'FF39A900'
 
@@ -25,8 +26,8 @@ export async function exportarExcel(evento, resultados) {
 
   // Una hoja por ficha
   for (const f of resultados) {
-    const ws = wb.addWorksheet(nombreHoja(`Ficha ${f.numero}`, usados))
-    ws.addRow([`${evento.nombre} — Ficha ${f.numero}${f.programa ? ` · ${f.programa}` : ''}`]).font = { bold: true, size: 13 }
+    const ws = wb.addWorksheet(nombreHoja(etiquetaGrupo(f), usados))
+    ws.addRow([`${evento.nombre} — ${etiquetaGrupo(f)}${detalleGrupo(f) ? ` · ${detalleGrupo(f)}` : ''}`]).font = { bold: true, size: 13 }
     ws.addRow([`Puntaje = promedio de los totales de los jurados (máximo ${maxTotal})`]).font = { italic: true, color: { argb: 'FF666666' } }
     ws.addRow([])
     const enc = ws.addRow(['Puesto', 'Proyecto', 'Integrantes', 'N° jurados', 'Puntaje promedio', ...preguntas.map((_, i) => `P${i + 1}`)])
@@ -49,17 +50,17 @@ export async function exportarExcel(evento, resultados) {
 
   // Detalle de todas las calificaciones
   const det = wb.addWorksheet(nombreHoja('Detalle', usados))
-  estilizarEncabezado(det.addRow(['Ficha', 'Proyecto', 'Jurado', ...preguntas.map((_, i) => `P${i + 1}`), 'Total', 'Observación', 'Fecha']))
+  estilizarEncabezado(det.addRow(['Ficha / grupo', 'Institución', 'Proyecto', 'Jurado', ...preguntas.map((_, i) => `P${i + 1}`), 'Total', 'Observación', 'Fecha']))
   for (const f of resultados) {
     for (const p of f.ranking) {
       for (const c of p.detalle) {
-        det.addRow([f.numero, p.nombre, c.evaluador, ...preguntas.map((_, i) => c.puntajes?.[i] ?? ''), c.total,
+        det.addRow([etiquetaGrupo(f), f.institucion ?? '', p.nombre, c.evaluador, ...preguntas.map((_, i) => c.puntajes?.[i] ?? ''), c.total,
           c.observacion ?? '', new Date(c.updated_at).toLocaleString('es-CO', { timeZone: 'America/Bogota' })])
       }
     }
   }
-  det.getColumn(1).width = 12; det.getColumn(2).width = 40; det.getColumn(3).width = 26
-  det.getColumn(preguntas.length + 5).width = 40; det.getColumn(preguntas.length + 6).width = 20
+  det.getColumn(1).width = 18; det.getColumn(2).width = 28; det.getColumn(3).width = 40; det.getColumn(4).width = 26
+  det.getColumn(preguntas.length + 6).width = 40; det.getColumn(preguntas.length + 7).width = 20
   det.views = [{ state: 'frozen', ySplit: 1 }]
 
   const buffer = await wb.xlsx.writeBuffer()

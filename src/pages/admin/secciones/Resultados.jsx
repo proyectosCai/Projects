@@ -4,6 +4,7 @@ import { calcularResultados } from '../../../lib/resultados'
 import { exportarExcel } from '../../../lib/exportarExcel'
 import { color, degradado } from '../../../lib/colores'
 import Podio from '../../../components/Podio'
+import { etiquetaGrupo, detalleGrupo } from '../../../lib/grupos'
 
 
 export default function Resultados({ evento }) {
@@ -70,7 +71,7 @@ export default function Resultados({ evento }) {
               style={sel ? { background: degradado(color(i)) } : { borderColor: color(i).de }}
               className={`rounded-xl border-2 px-3 py-2 text-left text-sm shadow-sm transition ${sel
                 ? 'border-transparent text-white' : 'bg-white hover:-translate-y-0.5'}`}>
-              <span className="block font-semibold">Ficha {f.numero}</span>
+              <span className="block font-semibold">{etiquetaGrupo(f)}</span>
               <span className={`block text-xs ${sel ? 'text-white/80' : 'text-gray-500'}`}>{hechas}/{f.ranking.length} proyectos con nota</span>
             </button>
           )
@@ -78,8 +79,8 @@ export default function Resultados({ evento }) {
       </div>
 
       <div className="tarjeta">
-        <h2 className="text-xl font-bold text-sena-oscuro">Ficha {ficha.numero}</h2>
-        {ficha.programa && <p className="text-sm text-gray-600">{ficha.programa}</p>}
+        <h2 className="text-xl font-bold text-sena-oscuro">{etiquetaGrupo(ficha)}</h2>
+        {detalleGrupo(ficha) && <p className="text-sm text-gray-600">{detalleGrupo(ficha)}</p>}
 
         <Podio ranking={ficha.ranking} maxTotal={maxTotal} />
 

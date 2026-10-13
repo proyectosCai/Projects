@@ -18,7 +18,7 @@ export default function ElegirEvento({ destino = 'jurado', titulo, embebido = fa
   const t = TEXTOS[destino]
 
   useEffect(() => {
-    let q = supabase.from('eventos').select('id, nombre, fecha, activo').order('fecha', { ascending: false })
+    let q = supabase.from('eventos').select('id, nombre, fecha, activo, imagen_url').order('fecha', { ascending: false })
     if (destino === 'jurado') q = q.eq('activo', true)
     if (destino === 'publico') q = q.eq('resultados_publicos', true)
     q.then(({ data }) => setEventos(data ?? []))
@@ -45,10 +45,12 @@ export default function ElegirEvento({ destino = 'jurado', titulo, embebido = fa
           return (
             <Link key={e.id} to={ruta(e)}
               className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
-              <div className="h-24 p-4 text-white" style={{ background: degradado(c) }}>
-                <span className="text-4xl opacity-90">{t.icono}</span>
+              <div className="relative h-40 p-4 text-white" style={{ background: degradado(c) }}>
+                {e.imagen_url
+                  ? <img src={e.imagen_url} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+                  : <span className="text-4xl opacity-90">{t.icono}</span>}
                 {admin && (
-                  <span className="absolute right-3 top-3 rounded-full bg-white/25 px-2 py-0.5 text-xs font-semibold">
+                  <span className="absolute right-3 top-3 rounded-full bg-black/40 px-2 py-0.5 text-xs font-semibold backdrop-blur">
                     {e.activo ? 'Activo' : 'Cerrado'}
                   </span>
                 )}

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { guardarEvaluador, leerEvaluador, useEventoJurado } from '../../lib/useEventoJurado'
 import Calificar from './Calificar'
 import { color, degradado } from '../../lib/colores'
+import { etiquetaGrupo, detalleGrupo, tipoGrupo } from '../../lib/grupos'
 
 export default function EventoJurado() {
   const { id } = useParams()
@@ -22,7 +23,7 @@ export default function EventoJurado() {
   // 1. Elegir nombre
   if (!evaluador) {
     return (
-      <Contenedor titulo={evento.nombre} subtitulo="¿Quién eres? Elige tu nombre para empezar a calificar.">
+      <Contenedor titulo={evento.nombre} subtitulo="¿Quién eres? Elige tu nombre para empezar a calificar." imagen={evento.imagen_url}>
         {evaluadores.length === 0 && <Aviso>Aún no hay evaluadores registrados en este evento.</Aviso>}
         <div className="grid gap-3 sm:grid-cols-2">
           {evaluadores.map((e, i) => {
@@ -65,9 +66,9 @@ export default function EventoJurado() {
   // 3. Proyectos de la ficha
   if (ficha) {
     return (
-      <Contenedor titulo={`Ficha ${ficha.numero}`} subtitulo={ficha.programa}>
+      <Contenedor titulo={etiquetaGrupo(ficha)} subtitulo={detalleGrupo(ficha)}>
         {barraJurado}
-        <button className="mb-4 rounded-lg bg-white/80 px-3 py-1.5 text-sm font-medium text-sena-oscuro shadow-sm hover:bg-white" onClick={() => setFichaId(null)}>← Todas las fichas</button>
+        <button className="mb-4 rounded-lg bg-white/80 px-3 py-1.5 text-sm font-medium text-sena-oscuro shadow-sm hover:bg-white" onClick={() => setFichaId(null)}>← Todas las fichas y grupos</button>
         {ficha.proyectos.length === 0 && <Aviso>Esta ficha aún no tiene proyectos.</Aviso>}
         <div className="grid gap-4 sm:grid-cols-2">
           {ficha.proyectos.map((p, i) => {
@@ -85,6 +86,7 @@ export default function EventoJurado() {
                 <div className="flex flex-1 flex-col p-4">
                   <span className="font-semibold leading-snug text-gray-900">{p.nombre}</span>
                   {p.integrantes && <span className="mt-1 text-sm text-gray-500">👥 {p.integrantes}</span>}
+                  {p.trabajo_path && <span className="mt-1 text-xs font-medium text-gray-500">📄 Trabajo disponible</span>}
                   <span className="mt-auto pt-3 text-sm font-semibold" style={{ color: c.texto }}>
                     {hecha ? 'Corregir calificación →' : 'Calificar →'}
                   </span>
@@ -99,7 +101,7 @@ export default function EventoJurado() {
 
   // 2. Elegir ficha
   return (
-    <Contenedor titulo={evento.nombre} subtitulo="Elige la ficha que vas a evaluar.">
+    <Contenedor titulo={evento.nombre} subtitulo="Elige la ficha que vas a evaluar." imagen={evento.imagen_url}>
       {barraJurado}
       {fichas.length === 0 && <Aviso>Aún no hay fichas en este evento.</Aviso>}
       <div className="grid gap-4 sm:grid-cols-2">
@@ -113,9 +115,9 @@ export default function EventoJurado() {
             <button key={f.id} onClick={() => setFichaId(f.id)}
               className="overflow-hidden rounded-2xl bg-white text-left shadow-md transition hover:-translate-y-1 hover:shadow-xl">
               <div className="p-4 text-white" style={{ background: degradado(c) }}>
-                <span className="text-xs font-semibold uppercase tracking-widest opacity-80">Ficha</span>
+                <span className="text-xs font-semibold uppercase tracking-widest opacity-80">{tipoGrupo(f)}</span>
                 <span className="block text-2xl font-extrabold">{f.numero}</span>
-                {f.programa && <span className="block text-sm opacity-90">{f.programa}</span>}
+                {detalleGrupo(f) && <span className="block text-sm opacity-90">{detalleGrupo(f)}</span>}
               </div>
               <div className="p-4">
                 <div className="mb-2 flex justify-between text-sm">
@@ -134,9 +136,10 @@ export default function EventoJurado() {
   )
 }
 
-function Contenedor({ titulo, subtitulo, children }) {
+function Contenedor({ titulo, subtitulo, imagen, children }) {
   return (
     <div className="mx-auto max-w-3xl">
+      {imagen && <img src={imagen} alt="" className="mb-4 h-40 w-full rounded-2xl object-cover shadow-md sm:h-52" />}
       <h1 className="text-2xl font-bold text-sena-oscuro sm:text-3xl">{titulo}</h1>
       {subtitulo && <p className="mb-5 text-gray-700">{subtitulo}</p>}
       {children}

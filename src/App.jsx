@@ -8,6 +8,9 @@ import Inicio from './pages/Inicio'
 import ElegirEvento from './pages/ElegirEvento'
 import EventoJurado from './pages/jurado/EventoJurado'
 import ResultadosPublicos from './pages/ResultadosPublicos'
+import SubirTrabajo from './pages/SubirTrabajo'
+import Certificados from './pages/Certificados'
+import VerificarCertificado from './pages/VerificarCertificado'
 import Login from './pages/admin/Login'
 import Eventos from './pages/admin/Eventos'
 import EventoConfig from './pages/admin/EventoConfig'
@@ -24,6 +27,9 @@ export default function App() {
             <Route path="/" element={<Inicio />} />
             <Route path="/calificar" element={<ElegirEvento destino="jurado" />} />
             <Route path="/evento/:id" element={<EventoJurado />} />
+            <Route path="/subir" element={<SubirTrabajo />} />
+            <Route path="/certificados" element={<Certificados />} />
+            <Route path="/verificar/:codigo" element={<VerificarCertificado />} />
             <Route path="/resultados" element={<ElegirEvento destino="publico" />} />
             <Route path="/resultados/:id" element={<ResultadosPublicos />} />
             <Route path="/admin/login" element={<Login />} />

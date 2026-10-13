@@ -24,7 +24,9 @@ export default function Sidebar({ abierto, onCerrar }) {
         <nav className="flex flex-col gap-1" onClick={onCerrar}>
           <NavLink to="/" end className={enlace}><span>🏠</span> Inicio</NavLink>
           <NavLink to="/calificar" className={enlace}><span>📝</span> Calificar proyectos</NavLink>
+          <NavLink to="/subir" className={enlace}><span>📤</span> Subir trabajo</NavLink>
           <NavLink to="/resultados" className={enlace}><span>🏆</span> Resultados</NavLink>
+          <NavLink to="/certificados" className={enlace}><span>🎓</span> Certificados</NavLink>
 
           <p className="mt-5 px-4 pb-1 text-xs font-semibold uppercase tracking-wider text-white/60">Administración</p>
           {esAdmin ? (

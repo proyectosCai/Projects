@@ -16,7 +16,10 @@ export default function Evaluadores({ evento }) {
   const agregar = async () => {
     const nombres = nuevos.split('\n').map((s) => s.trim()).filter(Boolean)
     if (!nombres.length) return
-    const { error } = await supabase.from('evaluadores').insert(nombres.map((nombre) => ({ evento_id: evento.id, nombre })))
+    const { error } = await supabase.from('evaluadores').insert(nombres.map((l) => {
+      const [nombre, documento] = l.split(/[;\t]/).map((x) => x?.trim())
+      return { evento_id: evento.id, nombre, documento: documento?.replace(/[^0-9A-Za-z]/g, '') || null }
+    }))
     if (error) return setError(mensajeError(error))
     setNuevos(''); cargar()
   }
@@ -35,13 +38,17 @@ export default function Evaluadores({ evento }) {
       <ul className="divide-y divide-gray-100">
         {lista?.map((ev) => (
           <li key={ev.id} className="flex items-center justify-between py-2">
-            <span>{ev.nombre}</span>
+            <span className="flex-1">{ev.nombre}</span>
+            <input className="input mr-2 w-40 text-xs" placeholder="Documento (certificado)" defaultValue={ev.documento ?? ''}
+              onBlur={(e) => e.target.value !== (ev.documento ?? '') &&
+                supabase.from('evaluadores').update({ documento: e.target.value.replace(/[^0-9A-Za-z]/g, '') || null }).eq('id', ev.id)
+                  .then(({ error }) => error && setError(mensajeError(error)))} />
             <button className="btn-peligro px-2" onClick={() => eliminar(ev)}>✕</button>
           </li>
         ))}
       </ul>
       <div className="space-y-2">
-        <label className="etiqueta">Agregar evaluadores (uno por línea)</label>
+        <label className="etiqueta">Agregar evaluadores (uno por línea; opcional: Nombre ; documento)</label>
         <textarea className="input min-h-[80px]" value={nuevos} onChange={(e) => setNuevos(e.target.value)} />
         <button className="btn-secundario" onClick={agregar}>+ Agregar</button>
       </div>

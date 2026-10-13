@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { supabase, mensajeError } from '../../lib/supabase'
 import { color, degradado } from '../../lib/colores'
+import { abrirTrabajo } from '../../lib/trabajos'
+import { etiquetaGrupo } from '../../lib/grupos'
 
 export default function Calificar({ evento, ficha, proyecto, evaluador, previa, onVolver, onGuardado }) {
   const preguntas = evento.rubrica ?? []
@@ -47,13 +49,20 @@ export default function Calificar({ evento, ficha, proyecto, evaluador, previa, 
 
   return (
     <div className="mx-auto max-w-2xl pb-28">
-      <button className="mb-4 rounded-lg bg-white/80 px-3 py-1.5 text-sm font-medium text-sena-oscuro shadow-sm hover:bg-white" onClick={onVolver}>← Proyectos de la ficha {ficha.numero}</button>
+      <button className="mb-4 rounded-lg bg-white/80 px-3 py-1.5 text-sm font-medium text-sena-oscuro shadow-sm hover:bg-white" onClick={onVolver}>← Proyectos de {etiquetaGrupo(ficha)}</button>
       <div className="mb-4 rounded-2xl p-5 text-white shadow-lg" style={{ background: degradado(c) }}>
-        <p className="text-xs font-semibold uppercase tracking-widest opacity-80">Ficha {ficha.numero}</p>
+        <p className="text-xs font-semibold uppercase tracking-widest opacity-80">{etiquetaGrupo(ficha)}{ficha.institucion ? ` · ${ficha.institucion}` : ''}</p>
         <h1 className="text-xl font-bold leading-snug sm:text-2xl">{proyecto.nombre}</h1>
         {proyecto.integrantes && <p className="mt-1 text-sm opacity-90">👥 {proyecto.integrantes}</p>}
         <p className="mt-3 inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-medium">
           Jurado: {evaluador.nombre}{previa && ' · corrigiendo tu calificación'}</p>
+        {proyecto.trabajo_path && (
+          <button type="button" onClick={() => abrirTrabajo(proyecto).catch((e) => setError(mensajeError(e)))}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-white py-2.5 text-sm font-bold shadow hover:bg-white/90"
+            style={{ color: c.texto }}>
+            📄 Ver / descargar trabajo
+          </button>
+        )}
       </div>
 
       <p className="mb-3 text-sm text-gray-700">Seleccione una única opción por pregunta ({evento.escala_min} = más bajo, {evento.escala_max} = más alto).</p>

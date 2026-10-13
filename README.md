@@ -28,3 +28,13 @@ y créale el usuario igual que en el paso 1.
 ## Despliegue
 Sitio estático: `npm run build` genera `dist/`. Incluye `vercel.json` y `public/_redirects` (Netlify)
 para que las rutas funcionen al recargar.
+
+## Trabajos y certificados
+- **Subir trabajo** (`/subir`): el aprendiz usa el código de 6 letras de su proyecto (ver/imprimir en *Fichas y proyectos*). Requiere "Recibir trabajos" activo.
+- **Certificados** (`/certificados`): se buscan por número de documento. Registra integrantes en *Fichas y proyectos → 👥 Integrantes* (`Nombre ; documento`) y el documento de los jurados en *Evaluadores*. Requiere "Certificados disponibles" activo.
+- **Verificación** (`/verificar/CODIGO`): página pública a la que lleva el QR del certificado.
+- La subida usa la Edge Function `trabajo-subida` (ya desplegada en Supabase).
+
+## Otras instituciones
+- **Evento organizado por otra institución:** en *Datos → Certificados* sube sus logos (hasta 4), elige el color y hasta 2 firmas.
+- **Proyectos de varias instituciones:** en *Fichas y proyectos* cada ficha puede ser "Ficha" o "Grupo" y llevar su centro/institución y logo; aparece en la evaluación, los resultados, el Excel y el certificado.

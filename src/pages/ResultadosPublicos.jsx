@@ -4,6 +4,7 @@ import { supabase, mensajeError } from '../lib/supabase'
 import { rankingPublico } from '../lib/resultados'
 import { color, degradado } from '../lib/colores'
 import Podio from '../components/Podio'
+import { etiquetaGrupo, detalleGrupo, tipoGrupo } from '../lib/grupos'
 
 export default function ResultadosPublicos() {
   const { id } = useParams()
@@ -60,8 +61,8 @@ export default function ResultadosPublicos() {
                 <button key={f.id} onClick={() => setFichaSel(f.id)}
                   style={sel ? { background: degradado(color(i)) } : { borderColor: color(i).de }}
                   className={`rounded-xl border-2 px-4 py-2 text-left text-sm shadow-sm transition ${sel ? 'border-transparent text-white' : 'bg-white hover:-translate-y-0.5'}`}>
-                  <span className="block font-semibold">Ficha {f.numero}</span>
-                  {f.programa && <span className={`block text-xs ${sel ? 'text-white/85' : 'text-gray-500'}`}>{f.programa}</span>}
+                  <span className="block font-semibold">{etiquetaGrupo(f)}</span>
+                  {detalleGrupo(f) && <span className={`block text-xs ${sel ? 'text-white/85' : 'text-gray-500'}`}>{detalleGrupo(f)}</span>}
                 </button>
               )
             })}
@@ -69,9 +70,9 @@ export default function ResultadosPublicos() {
 
           <div className="tarjeta overflow-hidden p-0">
             <div className="p-5 text-white" style={{ background: degradado(color(indice)) }}>
-              <p className="text-xs font-semibold uppercase tracking-widest opacity-80">Ficha</p>
+              <p className="text-xs font-semibold uppercase tracking-widest opacity-80">{tipoGrupo(ficha)}</p>
               <h2 className="text-2xl font-extrabold">{ficha.numero}</h2>
-              {ficha.programa && <p className="text-sm opacity-90">{ficha.programa}</p>}
+              {detalleGrupo(ficha) && <p className="text-sm opacity-90">{detalleGrupo(ficha)}</p>}
             </div>
             <div className="p-5">
               <Podio ranking={ficha.ranking} maxTotal={maxTotal} />
