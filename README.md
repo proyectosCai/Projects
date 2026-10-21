@@ -40,21 +40,8 @@ para que las rutas funcionen al recargar.
 - **Proyectos de varias instituciones:** en *Fichas y proyectos* cada ficha puede ser "Ficha" o "Grupo" y llevar su centro/institución y logo; aparece en la evaluación, los resultados, el Excel y el certificado.
 
 ## Secciones de rúbrica (jurados generales y técnicos)
-<<<<<<< HEAD
-<<<<<<< HEAD
 - Ejecuta una vez `supabase/2026-10-20_actualizacion_completa.sql` en Supabase → SQL Editor (incluye secciones y asignación de jurados; se puede volver a ejecutar sin problema).
 - En *Rúbrica* crea secciones (ej. General, Técnica) y ubica cada pregunta.
 - En *Evaluadores* marca qué secciones califica cada jurado (todas marcadas = evalúa todo).
 - Puntaje del proyecto = suma de los promedios de cada pregunta.
 - En *Evaluadores → 📌* asigna cada jurado a fichas completas o a proyectos (ponencias) específicos. Sin asignación, califica todo.
-=======
-=======
->>>>>>> origin/main
-- Ejecuta una vez `supabase/2026-10-19_secciones_rubrica.sql` en Supabase → SQL Editor.
-- En *Rúbrica* crea secciones (ej. General, Técnica) y ubica cada pregunta.
-- En *Evaluadores* marca qué secciones califica cada jurado (todas marcadas = evalúa todo).
-- Puntaje del proyecto = suma de los promedios de cada pregunta.
-<<<<<<< HEAD
->>>>>>> e0d2edc72d6f67ab0e4b6b53dc4c3dc2287fe20e
-=======
->>>>>>> origin/main

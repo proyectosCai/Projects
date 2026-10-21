@@ -10,7 +10,7 @@ export default function Footer() {
           Project-APP es un software en desarrollo por el Semillero de Investigación BIOMETRONICA del Centro de Automatización Industrial.
           <br />Prohibida su difusión y utilización sin previa autorización · SENA - Caldas - {new Date().getFullYear()}
         </p>
-        <img src={logoBio} alt="Semillero  BIOMETRONICA" className="h-6" />
+        <img src={logoBio} alt="Semillero BIOMETRONICA" className="h-6" />
       </div>
     </footer>
   )

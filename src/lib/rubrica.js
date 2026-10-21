@@ -36,7 +36,6 @@ export const etiquetaSecciones = (evaluador, evento) => {
   if (secs.length <= 1 || !evaluador?.secciones?.length || evaluador.secciones.length >= secs.length) return null
   return evaluador.secciones.join(' · ')
 }
-<<<<<<< HEAD
 
 /** ¿El jurado tiene asignación específica (fichas o proyectos)? */
 export const tieneAsignacion = (ev) => (ev?.fichas?.length ?? 0) > 0 || (ev?.proyectos?.length ?? 0) > 0
@@ -44,5 +43,3 @@ export const tieneAsignacion = (ev) => (ev?.fichas?.length ?? 0) > 0 || (ev?.pro
 /** ¿Este proyecto (con su ficha_id) le corresponde al jurado? */
 export const asignado = (ev, proyecto) =>
   !tieneAsignacion(ev) || (ev.fichas ?? []).includes(proyecto.ficha_id) || (ev.proyectos ?? []).includes(proyecto.id)
-=======
->>>>>>> e0d2edc72d6f67ab0e4b6b53dc4c3dc2287fe20e
